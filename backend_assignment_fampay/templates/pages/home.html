@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% block head_title %}{% translate "Dashboard" %}{% endblock %}
+
+{% block inner %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+    <div
+      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Dashboard</h1>
+    </div>
+
+    <h4>Latest Videos:</h4>
+    <div class="table-responsive">
+      <!-- <table class="d" id="a"></table> -->
+      <table class="table table-striped table-sm" id="table_1">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Date and Time</th>
+          <th>Video ID</th>
+          <th>Thumbnail URL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div class="pagination">
+          {% if videos.has_previous %}
+            <a class="pagination-action" href="?page=1">
+              << </a>
+            <a class="pagination-action" href="?page={{ videos.previous_page_number }}">
+              < </a>
+          {% endif %}
+          {% for num in videos.paginator.page_range %}
+            {% if videos.number == num %}
+              <span class="pagination-number pagination-current">{{ num }} </span>
+            {% else %}
+              <a class="pagination-number" href="?page={{ num }}">{{ num }} </a>
+            {% endif %}
+
+          {% endfor %}
+          {% if Videos.has_next %}
+            <a class="pagination-action" href="?page={{ videos.next_page_number }}">> </a>
+            <a class="pagination-action" href="?page={{ videos.paginator.num_pages }}"> >> </a>
+          {% endif %}
+        </div>
+        {% for video in videos %}
+          <tr>
+            <td>{{ video.title }}</td>
+            <td>{{ video.description }}</td>
+            <td>{{ video.published_at }}</td>
+            <td><a href="https://www.youtube.com/watch?v={{ video.vid_id }}" color="blue">{{ video.video_id }}</a></td>
+            <td><a href={{ video.thumbnail_url }}><img src={{ video.thumbnail_url }} width="120" height="80"></a></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+{% endblock %}
