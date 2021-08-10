@@ -10,6 +10,7 @@ Backend Assignment FamPay
 
 Requirements:
     - Docker & docker-compose
+    - Youtube API keys are under .envs/.local/.youtube_api_keys
 
 Functionalities:
     - Background (async) with some interval 10 seconds for fetching the latest videos using celery
